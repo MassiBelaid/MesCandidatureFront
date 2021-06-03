@@ -1,0 +1,73 @@
+<h1> Mes candidature </h1>
+<input type="text" class="form-control" id="filter" name="filter" placeholder="filtrer par Entreprise Lieu Titre" [(ngModel)]="filterObject" (keyup)="onEnter()">
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col" class="col-2">Entreprise
+          <button class="btn btn-secondary" (click)="orderByName()" ></button>
+        </th>
+        <th scope="col" class="col-3">Titre offre</th>
+        <th scope="col" class="col-1">lieu</th>
+        <th scope="col" class="col-1">lien</th>
+        <th scope="col" class="col-1">Date Candidature
+          <button class="btn btn-secondary" (click)="orderByDate()" ></button>
+        </th>
+        <th scope="col" class="col-1">Voie</th>
+        <th scope="col" class="col-1">Status</th>
+        <th scope="col" class="col-1">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let candidature of candidatures  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" [ngClass]="{
+          'table-info':candidature.status === 'deposee', 
+          'table-success':candidature.status === 'reponse', 
+          'table-danger':candidature.status === 'refus'
+        }" >
+        <td class="col-2"><a [routerLink]="['/candidature-detail', candidature.id]">{{candidature.companyName}}</a></td>
+        <td class="col-3">{{candidature.titreOffre}}</td>
+        <td class="col-1">{{candidature.lieu | slice:0:12}}</td>
+        <td class="col-1"><a *ngIf="candidature.url" href="{{candidature.url}}" target="_blank">lien</a></td>
+        <td class="col-1">{{candidature.candidatureDate | date:'dd-MM-yyyy'}}</td>
+        <td class="col-1">{{candidature.candidatureSouce}}</td>
+        <td class="col-1">
+          <select class="form-select" name="status" id="status" (change)="onChangeStatus(candidature, $event.target)">
+            <option [selected]="candidature.status === 'deposee'" value="deposee">deposee</option>
+            <option [selected]="candidature.status === 'reponse'" value="reponse">reponse</option>
+            <option [selected]="candidature.status === 'refus'" value="refus">refus</option>
+          </select>
+        </td>
+        <td class="col-1">
+            <button class="btn btn-danger" (click)="openDeleteCandidatureModal(delCandidature, candidature)" ></button>
+            <a class="btn btn-dark" [routerLink]="['/candidature-edit', candidature.id]">M</a>
+        </td>
+      </tr>
+      </tbody>
+</table>
+
+<ngb-pagination
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="candidatures.length"></ngb-pagination>
+
+
+
+<ng-template #delCandidature let-modal>
+  <div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Spprimer la candidature {{candidature.titreOffre}} ?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="deleteCandidature(modal)">Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+  
+  

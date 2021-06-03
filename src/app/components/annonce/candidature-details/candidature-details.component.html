@@ -1,0 +1,85 @@
+<div *ngIf="candidature">
+    <h1>Détails candidature au poste - {{candidature.titreOffre}} à {{candidature.lieu}}
+        <span class="btn" [ngClass]="{
+            'btn-outline-secondary':candidature.status === 'deposee', 
+            'btn btn-outline-success':candidature.status === 'reponse', 
+            'btn-outline-danger':candidature.status === 'refus'
+          }" >{{candidature.status}}</span>
+    </h1>
+    <h2>Chez {{candidature.companyName}}</h2>
+    <h3><a *ngIf="candidature.url" href="{{candidature.url}}" target="_blank">lien offre</a></h3>
+    <h3>{{candidature.candidatureSouce}}</h3>
+
+    <div  class="card border-primary mb-3" style="max-width: 100%;">
+        <div class="card-header">Détails offre</div>
+        <div class="card-body">
+          <p class="card-text">{{candidature.contain}}</p>
+        </div>
+    </div>
+    <h6>Offre ouverte le : {{candidature.annonceDate | date:'dd-MM-yyyy'}}</h6>
+    <h6>candidature le : {{candidature.candidatureDate | date:'dd-MM-yyyy'}}</h6>
+
+    <h2>List Des étapes : <button class="btn btn-primary" (click)="openCreateEtapeModal(etapeModal)">Ajouter</button></h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th class="col-1">titre</th>
+          <th class="col-9">Desription</th>
+          <th class="col-1">date</th>
+          <th class="col-1">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let etape of candidature.etapes" class="table-active">
+          <td class="col-1">{{etape.titre}}</td>
+          <td class="col-10">{{etape.description}}</td>
+          <td class="col-1">{{etape.date | date:'dd-MM-yyyy'}}</td>
+          <td class="col-1">
+            <button class="btn btn-warning" (click)="openEditEtapeModal(etapeModal, etape)" ></button>
+            <button class="btn btn-danger" (click)="openDeleteEtapeModal(delEtape, etape)" ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<ng-template #etapeModal let-modal>
+  <h1 *ngIf="etapeMode === 'create'">Ajout Etape</h1>
+  <h1 *ngIf="etapeMode === 'edit'">Modification Etape</h1>
+  <form (ngSubmit)="submitEtape()"  #etapeForm="ngForm">
+    <div class="form-group">
+      <label for="titre" class="form-label mt-4">Titre *</label>
+      <input type="text" class="form-control" id="titre" name="titre" placeholder="nom de l'entreprise" [(ngModel)]="etape.titre" 
+      [ngClass]="{'is-invalid': titre.touched && titre.invalid}" #titre="ngModel" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="form-label mt-4">Text annonce</label>
+      <textarea id="description" name="description" [(ngModel)]="etape.description" class="form-control" placeholder="Text annonce" rows="2" #description="ngModel" 
+      [ngClass]="{'is-invalid': description.touched && description.invalid}" required></textarea>
+    </div>
+
+    <input *ngIf="etapeMode === 'create'" type="submit" class="btn btn-primary mt-3" [disabled]="etapeForm.invalid" value="Créer">
+    <input *ngIf="etapeMode === 'edit'" type="submit" class="btn btn-primary mt-3" [disabled]="etapeForm.invalid" value="Modifier">
+  </form>
+</ng-template>
+
+
+<ng-template #delEtape let-modal>
+  <div>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Spprimer l'étape: {{etape.titre}} ?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="deleteEtape(modal)">Supprimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

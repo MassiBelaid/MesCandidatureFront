@@ -1,0 +1,54 @@
+<h1>Nouvelle candidature</h1>
+
+<div *ngIf="alertMessage" class="alert alert-dismissible" [ngClass]="alertType">
+    <button (click)="closeAlerte()" type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <span>{{alertMessage}}</span>
+</div>  
+
+<form (ngSubmit)="onSubmit()" #candidatureForm="ngForm">
+
+    <div class="form-group">
+        <label for="companyName" class="form-label mt-4">Entreprise *</label>
+        <input type="text" class="form-control" id="companyName" name="companyName" placeholder="nom de l'entreprise" [(ngModel)]="candidature.companyName" 
+        [ngClass]="{'is-invalid': companyName.touched && companyName.invalid}" #companyName="ngModel" required>
+    </div>
+    <div class="form-group">
+        <label for="titreOffre" class="form-label mt-4">Titre offre *</label>
+        <input type="text" class="form-control" id="titreOffre" name="titreOffre" placeholder="Titre offre" [(ngModel)]="candidature.titreOffre" 
+        [ngClass]="{'is-invalid': titreOffre.touched && titreOffre.invalid}" #titreOffre="ngModel" required>
+    </div>
+    <div class="form-group">
+        <label for="lieu" class="form-label mt-4">Lieu *</label>
+        <input type="text" class="form-control" id="lieu" name="lieu" placeholder="Lieu entreprise" [(ngModel)]="candidature.lieu" 
+        [ngClass]="{'is-invalid': lieu.touched && lieu.invalid}" #lieu="ngModel" required>
+    </div>
+    <div class="form-group">
+        <label for="url" class="form-label mt-4">url *</label>
+        <input type="text" class="form-control" id="url" name="url" placeholder="URL vers annonce" [(ngModel)]="candidature.url" 
+        [ngClass]="{'is-invalid': url.touched && url.invalid}" #url="ngModel" required>
+    </div>
+    <div class="form-group">
+        <label for="contain" class="form-label mt-4">Text annonce</label>
+        <textarea id="contain" name="contain" [(ngModel)]="candidature.contain" class="form-control" placeholder="Text annonce" rows="2" #contain="ngModel"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="annonceDate" class="form-label mt-4">Date de l'annonce *</label>
+        <input type="date" name="annonceDate" class="form-control" id="annonceDate" name="annonceDate" [(ngModel)]="candidature.annonceDate" 
+        [ngClass]="{'is-invalid': annonceDate.touched && annonceDate.invalid}" #annonceDate="ngModel" required>
+    </div>
+
+    <div class="form-group">
+        <label for="voie" class="form-label mt-4">Voie de candidature *</label>
+        <select class="form-select" name="voie" id="voie" [(ngModel)]="candidature.candidatureSouce" #voie="ngModel" required>
+          <option value="Indeed">Indeed</option>
+          <option value="Linkedin">Linkedin</option>
+          <option value="siteEntreprise">Entreprise</option>
+          <option value="SiteParticulier">Particulier</option>
+          <option value="Mail">Mail</option>
+        </select>
+      </div>
+
+
+    <input *ngIf="mode === 'create'" type="submit" class="btn btn-primary mt-3" [disabled]="candidatureForm.invalid" value="Créer">
+    <input *ngIf="mode === 'edit'" type="submit" class="btn btn-primary mt-3" [disabled]="candidatureForm.invalid" value="Modifier">
+</form>
