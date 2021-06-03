@@ -1,18 +1,18 @@
 # SearchJobFront
 
-##Fonctionnalités
+## Fonctionnalités
 
-###Enregistrer une candidature
+### Enregistrer une candidature
 
-###visualiser les candidature
+### visualiser les candidature
 
-###Ordonner liste des candidatures par nom entreprise ou date candidature
+### Ordonner liste des candidatures par nom entreprise ou date candidature
 
-###afficher détails candidature
+### afficher détails candidature
 
-###ajouter étape a candidature
+### ajouter étape a candidature
 
-###CRUD sur candidature et étapes
+### CRUD sur candidature et étapes
 
 
 
