@@ -1,12 +1,20 @@
 # SearchJobFront
 
 ##Fonctionnalités
+
 ###Enregistrer une candidature
+
 ###visualiser les candidature
+
 ###Ordonner liste des candidatures par nom entreprise ou date candidature
+
 ###afficher détails candidature
+
 ###ajouter étape a candidature
+
 ###CRUD sur candidature et étapes
+
+
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
